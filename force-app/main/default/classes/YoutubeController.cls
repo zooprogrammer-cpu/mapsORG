@@ -4,10 +4,14 @@
 
 public with sharing class YoutubeController {
     public String body {get; set;}
+    // ex: public Account[] accountList{get;set;} // [a1, a2, a3] //accountList is going to hold a collection of accounts instances
+    public List<SuperItemList> dataList {get;set;} // dataList is going to hold collection of SuperItemList instances
+
 
     public void search() {
 
         // business logic
+        dataList = new List<SuperItemList>();
         String endPoint = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=salesforce&key=AIzaSyBvMLx4V0JY6YDeUYUGJ8snHZ1LsRMBzCs';
 
         // Step 1: Instantiate HTTP Class
@@ -25,12 +29,20 @@ public with sharing class YoutubeController {
         body = response.getBody();
 
         // Deserialize-
-        fromJSON deserialized = (fromJSON) JSON.deserialize(body,fromJSON.class); // can instantiate the fromJSON class by typing .class. Need to typeCast as fromJSON
+        fromJSON d = (fromJSON) JSON.deserialize(body,fromJSON.class); // can instantiate the fromJSON class by typing .class. Need to typeCast as fromJSON
         // can use deserialized.kind, etc. after this
-        System.debug('🚀' + deserialized.etag);
-        System.debug('🚀' + deserialized.items[0].id);
+        System.debug('🚀' + d.kind);
+        System.debug('🚀' + d.etag);
+        System.debug('🚀' + d.items[2].id.kind);
+        System.debug('🚀' + d.items[2].id.videoId);
 
 
+        //Loop over the 5 search results and push into the wrapper object variable, dataList
+        for ( Integer i = 0; i < d.items.size() ; i++) {
+            dataList.add(new SuperItemList(d.items[i].snippet.title, d.items[i].snippet.description,d.items[i].snippet.thumbnails.medium.url, d.items[i].snippet.publishTime));
+        }
+
+        System.debug('dataList' + dataList);
 
     }
 
@@ -56,6 +68,7 @@ public with sharing class YoutubeController {
     class cls_id {
         public String kind;	//youtube#channel
         public String channelId;	//UCUpquzY878NEaZm5bc7m2sQ
+        public String videoId;
     }
     class cls_snippet {
         public String publishedAt;	//2006-08-03T21:52:39Z
@@ -83,6 +96,23 @@ public with sharing class YoutubeController {
     }
     public static fromJSON parse(String json){
         return (fromJSON) System.JSON.deserialize(json, fromJSON.class);
+    }
+
+    // Wrapper Class
+    public class SuperItemList {
+        public String title {get; set;}
+        public String description {get; set;}
+        public String url {get;set;}
+        public String publishTime {get;set;}
+
+        //constructor to push the deserialized values into the constructor and assign the values to the variables above
+        public SuperItemList(String title, String description, String url, String publishTime){
+            this.title = title; //push the title from constructor params to title in the public String title {get; set;}
+            this.description = description;
+            this.url = url;
+            this.publishTime = publishTime;
+
+        }
     }
 
 }
