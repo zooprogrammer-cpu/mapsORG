@@ -8,13 +8,17 @@ public with sharing class YoutubeController {
     // ex: public Account[] accountList{get;set;} // [a1, a2, a3] //accountList is going to hold a collection of accounts instances
     public List<SuperItemList> dataList {get;set;} // dataList is going to hold collection of SuperItemList instances
 
-
     public void search() {
 
         // business logic
         dataList = new List<SuperItemList>();
         String sanitizedQuery = searchQuery.replaceAll(' ', '+' );
-        String endPoint = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&q='+ sanitizedQuery + '&key=AIzaSyBvMLx4V0JY6YDeUYUGJ8snHZ1LsRMBzCs';
+        // String apiKey = API_TokenController.API_KEY;
+
+        API_Tokens__mdt token = API_Tokens__mdt.getInstance('YouTube_Token');
+        String apiKey = token.Key__c;
+
+        String endPoint = 'callout:YouTube?part=snippet&q='+ sanitizedQuery + '&key='+ apiKey;
 
         // Step 1: Instantiate HTTP Class
         Http http = new Http();
