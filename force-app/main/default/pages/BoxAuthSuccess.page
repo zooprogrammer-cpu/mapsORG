@@ -1,0 +1,4 @@
+<apex:page id="BoxAuthSuccess" controller="BoxAuthController" action="{!getAccessToken}">
+    Box.com Login Success!
+    {!body}
+</apex:page>

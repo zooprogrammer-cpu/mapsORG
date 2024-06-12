@@ -1,0 +1,5 @@
+<apex:page id="BoxAuthService" controller="BoxAuthController">
+    <apex:form>
+        <apex:commandButton value="login" action="{!authenticate}" ></apex:commandButton>
+    </apex:form>
+</apex:page>
