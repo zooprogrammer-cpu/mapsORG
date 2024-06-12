@@ -1,10 +1,25 @@
-<!--
- - 
- -->
 
 <apex:page id="YouTubeSearchPage" controller="YoutubeController">
-    {!body}
     <apex:form >
+        <apex:inputText value ="{!searchQuery}"/>
         <apex:commandButton value="Search" action="{!search}"></apex:commandButton>
     </apex:form>
+    <table>
+        <apex:repeat value= "{!dataList}" var="record">
+                <tr>
+                    <td>
+                        {!record.title}
+                    </td>
+                    <td>
+                        {!record.description}
+                    </td>
+                    <td>
+                        {!record.publishTime}
+                    </td>
+                    <td>
+                        <img src="{!record.url}" alt="thumbnail" />
+                    </td>
+                </tr>
+        </apex:repeat>
+    </table>
 </apex:page>

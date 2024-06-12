@@ -4,6 +4,7 @@
 
 public with sharing class YoutubeController {
     public String body {get; set;}
+    public String searchQuery {get;set;}
     // ex: public Account[] accountList{get;set;} // [a1, a2, a3] //accountList is going to hold a collection of accounts instances
     public List<SuperItemList> dataList {get;set;} // dataList is going to hold collection of SuperItemList instances
 
@@ -12,7 +13,8 @@ public with sharing class YoutubeController {
 
         // business logic
         dataList = new List<SuperItemList>();
-        String endPoint = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=salesforce&key=AIzaSyBvMLx4V0JY6YDeUYUGJ8snHZ1LsRMBzCs';
+        String sanitizedQuery = searchQuery.replaceAll(' ', '+' );
+        String endPoint = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&q='+ sanitizedQuery + '&key=AIzaSyBvMLx4V0JY6YDeUYUGJ8snHZ1LsRMBzCs';
 
         // Step 1: Instantiate HTTP Class
         Http http = new Http();
