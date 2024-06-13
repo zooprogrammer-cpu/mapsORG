@@ -1,6 +1,8 @@
 public with sharing class BoxAuthController {
     public static String body {get; set;}
 
+    public List<SuperItemList> dataList {get;set;} // dataList is going to hold collection of SuperItemList instances
+
     public static API_Tokens__mdt token = API_Tokens__mdt.getInstance('Box');
     public static String clientId = token.Client_Id__c;
     public static String clientSecret = token.Client_Secret__c;
@@ -12,7 +14,7 @@ public with sharing class BoxAuthController {
 
     }
 
-    public static void getAccessToken() {
+    public void getAccessToken() {
         String authCode = ApexPages.currentPage().getParameters().get('code');
         System.debug('Auth code:🙌' + authCode);
         // Step 1 - Instantiate the HTTP Request
@@ -32,6 +34,14 @@ public with sharing class BoxAuthController {
         // Finally Make a new callout to get the list of items in the folder
         body = getFolders(d.access_token); // pass the access token to getFolders method
 
+        // Deserialize the body which is the JSON file list
+        dataList = new SuperItemList[]{};
+        parseFolderContent p = (parseFolderContent) JSON.deserialize(body, parseFolderContent.class);
+        // push the file infos to the constructor if SuperItemList
+        for (Integer i = 0; i <p.entries.size() ; i++){
+            dataList.add(new SuperItemList(p.entries[i].type, p.entries[i].id, p.entries[i].name));
+        }
+
     }
 
     public static String getFolders(String access_token) {
@@ -49,19 +59,64 @@ public with sharing class BoxAuthController {
     }
 
     //
-    // Inner Class
+    // Wrapper Class for access token
 
     public class fromJSON{
-        public String access_token;	//pUTWslEhkeYemX657k3VoYta4tdIMaDS
-        public Integer expires_in;	//3723
+        public String access_token;	//
+        public Integer expires_in;	//
         public cls_restricted_to[] restricted_to;
-        public String refresh_token;	//E0zTL7y9kv0V7poNWg6vP3Xj3AqGhgROWcgL98zRN0fKAneYNtVutUKi2ZM4dPAj
+        public String refresh_token;	//
         public String token_type;	//bearer
 
 
     }
 
     public class cls_restricted_to {
+
+    }
+    //
+    // Wrapper Class for Folder content
+    //
+
+    public class parseFolderContent{
+        public Integer total_count;	//2
+        public cls_entries[] entries;
+        public Integer offset;	//0
+        public Integer limit_x;	//100
+        public cls_order[] order;
+    }
+
+    class cls_entries {
+        public String type;	//file
+        public String id;	//1558544351957
+        public cls_file_version file_version;
+        public String sequence_id;	//0
+        public String etag;	//0
+        public String sha1;	//476d415c523a740801f00c28c1c060154233448c
+        public String name;	//Salesforce Days_ Enablement Sessions.pdf
+    }
+    class cls_file_version {
+        public String type;	//file_version
+        public String id;	//1712489371157
+        public String sha1;	//476d415c523a740801f00c28c1c060154233448c
+    }
+    class cls_order {
+        public String by_x;	//type
+        public String direction;	//ASC
+    }
+
+    // Wrapper class to use in Visual Force UI
+    public class SuperItemList {
+        //local variables
+        public String type{get;set;}
+        public String id{get;set;}
+        public String name{get;set;}
+
+        SuperItemList(String type_x, String id_x, String name_x) {
+            this.type = type_x; // assign the type passed in SuperItemList Constructor to the local variables in public String type
+            this.id = id_x;
+            this.name = name_x;
+        }
 
     }
 
