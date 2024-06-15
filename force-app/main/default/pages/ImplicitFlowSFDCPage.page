@@ -1,0 +1,6 @@
+<!--
+ -
+ -->
+
+<apex:page id="ImplicitFlowSFDCPage" controller="ImplicitFlowController" action="{!authenticate}">
+</apex:page>

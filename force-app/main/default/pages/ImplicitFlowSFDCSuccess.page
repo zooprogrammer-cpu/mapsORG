@@ -1,0 +1,9 @@
+<apex:page id="ImplicitFlowSFDCSuccess">
+    Implicit Flow Login Successful
+    <script>
+        window.onload = () => {
+          let hash = window.location.hash.substr(1);
+          console.log(hash);
+        }
+    </script>
+</apex:page>
