@@ -1,0 +1,7 @@
+<!--
+ -
+ -->
+
+<apex:page id="GithubOauthPage" controller="GithubController">
+    {!body}
+</apex:page>
