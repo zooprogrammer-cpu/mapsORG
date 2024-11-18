@@ -2,7 +2,7 @@
     Box.com Login Success!
 <!--    {!body}-->
 
-    <apex:repeat value="{!dataList}"  var ="record">
+    <apex:repeat value="{!dataList}"  var="record">
         <table>
             <tr>
                 <td>{!record.id}</td>

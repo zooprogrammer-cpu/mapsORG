@@ -29,7 +29,7 @@ public with sharing class ReqResRESTAPIController {
 
         System.debug(friends);
 
-        return response;
+        return response; 
 
     }
 

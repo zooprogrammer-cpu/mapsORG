@@ -1,11 +1,11 @@
-
 <apex:page id="YouTubeSearchPage" controller="YoutubeController">
     <apex:form >
-        <apex:inputText value ="{!searchQuery}"/>
+        <apex:inputText value="{!searchQuery}"/>
         <apex:commandButton value="Search" action="{!search}"></apex:commandButton>
+        {!body}
     </apex:form>
     <table>
-        <apex:repeat value= "{!dataList}" var="record">
+        <apex:repeat value="{!dataList}" var="record">
                 <tr>
                     <td>
                         {!record.title}

@@ -28,12 +28,13 @@ public with sharing class BoxAuthController {
         req.setHeader('Accept', 'application/json'); // request is going to send is only going to accept the response in format of JSON
         req.setBody('grant_type=authorization_code&code='+ authCode + '&client_id='+ clientId + '&client_secret='+ clientSecret);
         HttpResponse response = http.send(req);
+        System.debug('response:' + response);
 
         // Step 3 - Receive the Response for access_toke and refresh_token
         fromJSON d = (fromJSON) JSON.deserialize(response.getBody(), fromJSON.class);
         // Finally Make a new callout to get the list of items in the folder
         body = getFolders(d.access_token); // pass the access token to getFolders method
-
+        System.debug('body: ' + body);
         // Deserialize the body which is the JSON file list
         dataList = new SuperItemList[]{};
         parseFolderContent p = (parseFolderContent) JSON.deserialize(body, parseFolderContent.class);
@@ -45,9 +46,10 @@ public with sharing class BoxAuthController {
     }
 
     public static String getFolders(String access_token) {
+        String folderNumber = '270198748579';
         Http http = new Http();
         HttpRequest req = new HttpRequest();
-        req.setEndpoint('https://api.box.com/2.0/folders/269617849874/items');
+        req.setEndpoint('https://api.box.com/2.0/folders/'+ folderNumber + '/items');
         req.setMethod('GET');
         req.setHeader('Accept', 'application/json');
         req.setHeader('Authorization', 'Bearer ' + access_token);

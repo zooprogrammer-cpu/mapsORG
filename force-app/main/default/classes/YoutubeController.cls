@@ -33,9 +33,11 @@ public with sharing class YoutubeController {
         HttpResponse response = http.send(request);
         // from the response, strip the body
         body = response.getBody();
+        System.debug('body:' + body);
 
         // Deserialize-
         fromJSON d = (fromJSON) JSON.deserialize(body,fromJSON.class); // can instantiate the fromJSON class by typing .class. Need to typeCast as fromJSON
+        System.debug('🚀 deserialized' + d);
         // can use deserialized.kind, etc. after this
         System.debug('🚀' + d.kind);
         System.debug('🚀' + d.etag);

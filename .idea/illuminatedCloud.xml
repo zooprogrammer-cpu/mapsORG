@@ -7,6 +7,7 @@
           <option name="connectionName" value="mapsOrg" />
           <option name="connectionType" value="OAUTH" />
           <option name="defaultModuleName" value="mapsORG" />
+          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/mapsOrg/OfflineSymbolTable.zip" />
         </IlluminatedCloudConnection>
       </list>
     </option>

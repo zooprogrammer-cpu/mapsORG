@@ -5,10 +5,11 @@ global with sharing class ZoomWebHookHandler {
         RestRequest req = RestContext.request;
         RestResponse res = RestContext.response;
 
-        String ZOOM_WEBHOOK_SECRET_TOKEN = 'zpakVJ2pR8eNvBb1gKVeQQ';
+        String ZOOM_WEBHOOK_SECRET_TOKEN = 'DmfXDDlJSnaFxNh9NZIt_Q';
 
         // Get request body
         String requestBody = req.requestBody.toString();
+        System.debug('Request Body: ' + requestBody);
 
         // Parse JSON
         Map<String, Object> requestMap = (Map<String, Object>) JSON.deserializeUntyped(requestBody);
