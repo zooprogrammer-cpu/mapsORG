@@ -24,7 +24,7 @@ public with sharing class CustomAuthNC {
         req.setEndpoint('callout:CustomAuthNC/my-api');
         req.setMethod('GET');
         req.setHeader('Content-Type', 'application/json');
-        req.setHeader('x-api-key', 'sfdc2nodejs');
+//        req.setHeader('x-api-key', 'sfdc2nodejs');
         Http http = new Http();
         try {
             HttpResponse res = http.send(req);
